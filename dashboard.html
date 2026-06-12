@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Segmentation &amp; Churn Risk — Ledger</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#1f2a24;
+    --paper:#f3efe6;
+    --paper-line:#d8d1c1;
+    --green:#3c5a45;
+    --amber:#c4762a;
+    --red:#9c3d2e;
+    --muted:#8a8275;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family: 'Courier New', ui-monospace, monospace;
+    padding: 32px 16px 80px;
+  }
+  .ledger{
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  header{
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  header .sub{
+    font-size: 12px;
+    color: var(--muted);
+    text-align:right;
+    line-height:1.6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .section-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin: 36px 0 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-label::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background: var(--paper-line);
+  }
+  .summary-line{
+    font-family: Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .summary-line b{ color: var(--green); }
+  .summary-line .risk{ color: var(--red); font-weight:700; }
+
+  table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th, td{
+    text-align:left;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  th{
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    border-bottom: 2px solid var(--ink);
+  }
+  td.num, th.num{ text-align:right; font-variant-numeric: tabular-nums; }
+  tr:hover td{ background: rgba(0,0,0,0.02); }
+
+  .risk-bar{
+    display:inline-block;
+    height: 8px;
+    background: var(--ink);
+    border-radius: 0;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+  .risk-tag{
+    display:inline-block;
+    padding: 2px 8px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+  }
+  .risk-high{ color: var(--red); }
+  .risk-mid{ color: var(--amber); }
+  .risk-low{ color: var(--green); }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 32px;
+    margin-top: 16px;
+  }
+  @media (max-width: 720px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+  .chart-box{
+    background: #fff;
+    border: 1px solid var(--paper-line);
+    padding: 16px;
+  }
+  .chart-box h3{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight:400;
+  }
+
+  .insight-box{
+    border-left: 3px solid var(--green);
+    padding: 14px 18px;
+    background: rgba(60,90,69,0.05);
+    font-family: Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-top: 12px;
+  }
+  .insight-box.warn{
+    border-left-color: var(--red);
+    background: rgba(156,61,46,0.05);
+  }
+
+  footer{
+    margin-top: 48px;
+    border-top: 1px solid var(--paper-line);
+    padding-top: 16px;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+</style>
+</head>
+<body>
+<div class="ledger">
+
+  <header>
+    <h1>Customer Ledger</h1>
+    <div class="sub">
+      Segmentation &amp; Churn Risk Review<br>
+      Source: Online Retail II · 2,671 accounts
+    </div>
+  </header>
+
+  <div class="section-label">Overview</div>
+  <p class="summary-line">
+    Of <b>2,671</b> active accounts, <span class="risk">24.1%</span> are classified
+    as churned (no purchase in 90+ days). Risk is concentrated in two segments —
+    <b>At Risk/Lost</b> and <b>Regular</b> — which together hold 98.7% of all accounts.
+  </p>
+  <p class="summary-line">
+    The <b>Champions</b> and <b>VIP/Whale</b> segments, though small in number,
+    account for a disproportionate share of revenue and show near-zero churn risk.
+  </p>
+
+  <div class="section-label">Segment Ledger</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Segment</th>
+        <th class="num">Accounts</th>
+        <th class="num">Avg. Value</th>
+        <th class="num">Churn Risk</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="segment-table"></tbody>
+  </table>
+
+  <div class="grid">
+    <div class="chart-box">
+      <h3>Accounts per Segment</h3>
+      <canvas id="countChart" height="220"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Churn Probability by Segment</h3>
+      <canvas id="riskChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <div class="section-label">Reading the Ledger</div>
+  <div class="insight-box warn">
+    <b>At Risk/Lost (835 accounts, 59.6% churn risk)</b> — largest single risk
+    pool. Individually low value ($460 avg), but the volume makes this segment
+    worth a low-cost win-back campaign (email re-engagement, small discount).
+  </div>
+  <div class="insight-box warn">
+    <b>Regular (1,802 accounts, 38.5% churn risk)</b> — the priority segment.
+    Largest group overall, moderate value ($1,210 avg), and meaningful churn
+    risk. A 5-point reduction in churn here protects more revenue than any
+    other intervention.
+  </div>
+  <div class="insight-box">
+    <b>Champions &amp; VIP/Whale (34 accounts combined, &lt;0.001% churn risk)</b> —
+    extremely loyal, extremely high value ($16,958 and $103,392 avg). No
+    retention spend needed; consider light-touch loyalty perks to keep it that way.
+  </div>
+
+  <footer>
+    <span>RFM Segmentation · K-Means (k=4)</span>
+    <span>Churn Model · Logistic Regression, ROC-AUC 0.76</span>
+  </footer>
+
+</div>
+
+<script>
+const data = [
+  { segment: "At Risk/Lost", count: 835,  avgValue: 460.24,   risk: 0.5961 },
+  { segment: "Regular",      count: 1802, avgValue: 1210.37,  risk: 0.3854 },
+  { segment: "Champions",    count: 29,   avgValue: 16957.77, risk: 0.0000001 },
+  { segment: "VIP/Whale",    count: 5,    avgValue: 103392.10,risk: 0.0000000 }
+];
+
+const palette = {
+  "At Risk/Lost": "#9c3d2e",
+  "Regular": "#c4762a",
+  "Champions": "#3c5a45",
+  "VIP/Whale": "#1f2a24"
+};
+
+function riskLabel(r){
+  if(r > 0.5) return { txt: "High Risk", cls: "risk-high" };
+  if(r > 0.15) return { txt: "Moderate", cls: "risk-mid" };
+  return { txt: "Secure", cls: "risk-low" };
+}
+
+const tbody = document.getElementById('segment-table');
+data.forEach(d => {
+  const r = riskLabel(d.risk);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${d.segment}</td>
+    <td class="num">${d.count.toLocaleString()}</td>
+    <td class="num">$${d.avgValue.toLocaleString(undefined,{maximumFractionDigits:0})}</td>
+    <td class="num">${(d.risk*100).toFixed(d.risk < 0.001 ? 4 : 1)}%</td>
+    <td><span class="risk-tag ${r.cls}">${r.txt}</span></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+new Chart(document.getElementById('countChart'), {
+  type: 'bar',
+  data: {
+    labels: data.map(d => d.segment),
+    datasets: [{
+      data: data.map(d => d.count),
+      backgroundColor: data.map(d => palette[d.segment]),
+      borderRadius: 0
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#d8d1c1' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('riskChart'), {
+  type: 'bar',
+  data: {
+    labels: data.map(d => d.segment),
+    datasets: [{
+      data: data.map(d => +(d.risk*100).toFixed(2)),
+      backgroundColor: data.map(d => palette[d.segment]),
+      borderRadius: 0
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, max: 70, grid: { color: '#d8d1c1' },
+           ticks: { callback: v => v + '%' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
