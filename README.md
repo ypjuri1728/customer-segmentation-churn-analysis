@@ -71,14 +71,14 @@ customers are loyal and low-risk, requiring minimal retention spend.
 At Risk/Lost customers, while individually low-value, are numerous enough 
 to justify low-cost re-engagement campaigns (email, small discounts).
 
-##📂 Files
+## 📂 Files
 
-- `notebook.ipynb` — full analysis: cleaning, RFM, clustering, churn modeling
+- `Cohort_Analysis_and_Other_Stories.ipynb` — full analysis: cleaning, RFM, clustering, churn modeling
 - `dashboard.html` — interactive visualization of segments and churn risk
 - `rfm_results.csv` — final per-customer RFM scores, segments, and churn probability
 - `segment_insights.json` — segment-level summary used in the dashboard
 
-##🛠️ Tools
+## 🛠️ Tools
 
 Python (pandas, scikit-learn, matplotlib) for analysis; HTML/CSS/JS (Chart.js) 
 for the dashboard.
