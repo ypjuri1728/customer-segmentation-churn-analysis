@@ -4,13 +4,13 @@ A customer analytics project using RFM (Recency, Frequency, Monetary)
 segmentation and machine learning to identify churn risk and prioritize 
 retention efforts.
 
-## Overview
+## 📊 Overview
 
 Using transaction-level e-commerce data, this project segments customers 
 into behavioral groups, predicts churn risk, and identifies which segments 
 deserve retention focus based on a combination of value and risk.
 
-## Dataset
+## 📁 Dataset
 
 [Online Retail II (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci) 
 — UK-based online retailer transactions, Dec 2009–Dec 2011. 
@@ -19,7 +19,7 @@ Contains invoice-level data: Customer ID, Invoice Date, Quantity, Price, Country
 > Note: raw dataset (~25MB+) is not included in this repo. Download it 
 > separately from the link above to reproduce the analysis.
 
-## Approach
+## 🔍 Approach
 
 ### 1. Data Cleaning
 Removed records with missing Customer IDs, cancelled orders, and invalid 
@@ -54,7 +54,7 @@ since it directly defines the churn label).
 A Random Forest model was also tested but underperformed (ROC-AUC 0.68), 
 likely due to overfitting on only two features.
 
-### 5. Business Insights
+### 💡 Business Insights
 
 | Segment       | Accounts | Avg. Value | Churn Risk |
 |---------------|---------|------------|------------|
@@ -71,14 +71,14 @@ customers are loyal and low-risk, requiring minimal retention spend.
 At Risk/Lost customers, while individually low-value, are numerous enough 
 to justify low-cost re-engagement campaigns (email, small discounts).
 
-## Files
+##📂 Files
 
 - `notebook.ipynb` — full analysis: cleaning, RFM, clustering, churn modeling
 - `dashboard.html` — interactive visualization of segments and churn risk
 - `rfm_results.csv` — final per-customer RFM scores, segments, and churn probability
 - `segment_insights.json` — segment-level summary used in the dashboard
 
-## Tools
+##🛠️ Tools
 
 Python (pandas, scikit-learn, matplotlib) for analysis; HTML/CSS/JS (Chart.js) 
 for the dashboard.
