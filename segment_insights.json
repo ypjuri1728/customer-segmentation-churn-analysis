@@ -1,0 +1,26 @@
+[
+  {
+    "Segment": "At Risk/Lost",
+    "Num_Customers": 835,
+    "Avg_Value": 460.23570538922155,
+    "Churn_Probability": 0.5960884983749961
+  },
+  {
+    "Segment": "Regular",
+    "Num_Customers": 1802,
+    "Avg_Value": 1210.370335738069,
+    "Churn_Probability": 0.3854354946881359
+  },
+  {
+    "Segment": "Champions",
+    "Num_Customers": 29,
+    "Avg_Value": 16957.768,
+    "Churn_Probability": 1.4023686408307495e-07
+  },
+  {
+    "Segment": "VIP/Whale",
+    "Num_Customers": 5,
+    "Avg_Value": 103392.1,
+    "Churn_Probability": 4.782316261187777e-21
+  }
+]
