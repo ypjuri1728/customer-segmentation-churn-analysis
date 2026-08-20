@@ -3,6 +3,7 @@
 A customer analytics project using RFM (Recency, Frequency, Monetary) 
 segmentation and machine learning to identify churn risk and prioritize 
 retention efforts.
+🚀 **[Live Demo](https://customer-segmentation-churn-analysis-g9od4twbm.vercel.app)**
 [Dashboard Screenshot]
 <img width="1866" height="1010" alt="image" src="https://github.com/user-attachments/assets/fdd5a6a3-e24a-44bb-a43f-46620276aa16" />
 
@@ -77,7 +78,7 @@ to justify low-cost re-engagement campaigns (email, small discounts).
 ## 📂 Files
 
 - `Cohort_Analysis_and_Other_Stories.ipynb` — full analysis: cleaning, RFM, clustering, churn modeling
-- `dashboard.html` — interactive visualization of segments and churn risk
+- `index.html` — interactive visualization of segments and churn risk
 - `rfm_results.csv` — final per-customer RFM scores, segments, and churn probability
 - `segment_insights.json` — segment-level summary used in the dashboard
 
