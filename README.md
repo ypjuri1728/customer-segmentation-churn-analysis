@@ -3,7 +3,11 @@
 A customer analytics project using RFM (Recency, Frequency, Monetary) 
 segmentation and machine learning to identify churn risk and prioritize 
 retention efforts.
+
+---
 🚀 **[Live Demo](https://customer-segmentation-churn-analysis-g9od4twbm.vercel.app)**
+---
+
 [Dashboard Screenshot]
 <img width="1866" height="1010" alt="image" src="https://github.com/user-attachments/assets/fdd5a6a3-e24a-44bb-a43f-46620276aa16" />
 
